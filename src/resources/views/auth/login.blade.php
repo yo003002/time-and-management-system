@@ -1,3 +1,5 @@
+<!-- ログイン（一般）　/login -->
+
 @extends('layouts.app-login')
 
 @section('css')

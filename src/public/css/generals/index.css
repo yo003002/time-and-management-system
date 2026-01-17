@@ -1,0 +1,98 @@
+.attendance-content {
+    background-color: #f0eff2;
+    height: 100vh;
+}
+
+.attendance-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+
+/* ステータスボタン */
+.status {
+    margin: 0 auto;
+    height: 35px;
+    width: 90px;
+}
+
+.status-content p {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    line-height: 35px;
+    border-radius: 30px;
+    background: #c8c8c8;
+    color: #696969;
+    border: none;
+    font-weight: bold;
+}
+
+/* 日にち */
+.date {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 40px;
+}
+
+/* 時刻 */
+.time {
+    text-align: center;
+    font-size: 70px;
+    font-weight: bold;
+}
+
+/* 出勤・退勤・休憩ボタン */
+.status-button {
+    margin-top: 60px;
+    width: 380px;
+    height: 50px;
+}
+
+.status-button__content {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    gap: 70px;
+}
+
+/* 出勤・退勤ボタン */
+.status-button__clock-in,
+.status-button__clock-out {
+    background: #000000;
+    line-height: 50px;
+    width: 160px;
+    font-size: 25px;
+    font-weight: bold;
+    border-radius: 15px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+}
+
+/* 休憩入・休憩戻ボタン */
+.status-button__break-in,
+.status-button__break-out {
+    background: #fff;
+    line-height: 50px;
+    width: 160px;
+    font-size: 25px;
+    font-weight: bold;
+    border-radius: 15px;
+    border: none;
+    color: #000000;
+    cursor: pointer;
+}
+
+.status-button__content p {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0;
+}
+
+/* * {
+    border: 1px solid red;
+} */

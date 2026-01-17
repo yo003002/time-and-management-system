@@ -1,3 +1,5 @@
+<!-- 管理者用ログイン　/admin/login -->
+
 @extends('layouts.app-login')
 
 @section('css')

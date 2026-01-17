@@ -1,0 +1,113 @@
+.list-content {
+    background-color: #f0eff2;
+    height: 100vh;
+}
+
+.list-header {
+    margin: 0 auto;
+    padding: 80px 0 30px 0;
+    width: 60%;
+}
+
+.header-title {
+    margin: 0;
+    padding: 0 20px;
+    border-left: 10px solid #000000;
+}
+
+/* 月表示 */
+.month {
+    margin: 0 auto;
+    width: 60%;
+    background: #fff;
+    border: none;
+    border-radius: 10px;
+}
+
+.month-logo {
+    height: 25px;
+    width: 25px;
+    margin-right: 7px;
+    padding-bottom: 3px;
+}
+
+.month-swith {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+}
+
+.month-swith a {
+    color: #737373;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.now-month {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+/* 矢印 */
+.arrow {
+    color: #b3b3b3;
+    font-weight: 900;
+    font-size: 20px;
+    padding: 0 10px;
+}
+
+/* 勤怠一覧 */
+.list-inner {
+    margin: 30px auto;
+    width: 60%;
+    background: #fff;
+    border: none;
+    border-radius: 10px;
+}
+
+.list-table__inner {
+    width: 100%;
+    table-layout: fixed;
+}
+
+
+.list-table__row th {
+    padding: 10px 0;
+    color: #737373;
+    font-weight: bold;
+    border-bottom: 3px solid #e1e1e1;
+}
+
+.list-table__row th:nth-child(1) {
+    width: 25%;
+}
+
+.list-table__row th:nth-child(2),
+.list-table__row th:nth-child(3),
+.list-table__row th:nth-child(4),
+.list-table__row th:nth-child(5),
+.list-table__row th:nth-child(6) {
+    width: 15%;
+}
+
+.list-table__row td {
+    padding: 10px 0;
+    color: #737373;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #e1e1e1;
+}
+
+.list-table__row td a {
+    padding: 10px 0;
+    color: #000000;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid #e1e1e1;
+    text-decoration: none;
+}
+
+/* * {
+    border: 1px solid red;
+} */

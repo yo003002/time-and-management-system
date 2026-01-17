@@ -1,0 +1,1 @@
+<!-- 勤怠詳細画面　'/attendance/detail/{id} -->
