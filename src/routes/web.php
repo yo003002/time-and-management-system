@@ -37,6 +37,14 @@ Route::middleware('auth')->group(function () {
 
     // 勤怠詳細画面
     Route::get('/attendance/detail/{id}', [Attendancecontroller::class, 'detail'])->name('generals.detail');
-});
 
+    // 修正
+    Route::post('/attendance/detail/{id}/correction', [Attendancecontroller::class, 'store'])->name('generals.correction.store');
 
+    });
+    
+    Route::middleware(['auth', 'can:admin'])->group(function () {
+        
+        // 管理者ログイン後勤怠一覧
+        Route::get('/admin/attendance/list', [AttendanceController::class, 'adminList'])->name('admin.list');
+    });

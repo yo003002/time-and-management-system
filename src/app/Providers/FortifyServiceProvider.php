@@ -44,13 +44,7 @@ class FortifyServiceProvider extends ServiceProvider
                 $user &&
                 Hash::check($request->password, $user->password)
             ) {
-                // 管理者ログイン
-                if ($request->is('admin/login')) {
-                    return $user->role === 'admin' ? $user : null;
-                }
-
-                // 一般ログイン
-                return $user->role === 'user' ? $user : null;
+                return $user;
             }
             return null;
         });
@@ -79,6 +73,23 @@ class FortifyServiceProvider extends ServiceProvider
             $email = (string) $request->email;
             
             return Limit::perMinute(10)->by($email . $request->ip());
+        });
+
+        // 管理者ログイン後勤怠一覧画面へ
+        $this->app->singleton(LoginResponse::class, function ()
+        {
+            return new class implements LoginResponse {
+                public function toResponse($request)
+                {
+                    $user = auth()->user();
+
+                    if ($user->role === 'admin') {
+                        return redirect()->route('admin.list');
+                    }
+
+                    return redirect()->route('generals.index');
+                }
+            };
         });
 
         // ログアウト後ログイン画面へ

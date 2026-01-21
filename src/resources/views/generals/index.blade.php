@@ -27,7 +27,7 @@
                 {{ now()->format('Y年n月j日') }}({{ ['日','月','火','水','木','金','土'][now()->dayOfWeek] }})
             </div>
             <div class="time">
-                {{ now()->format('G:i') }}
+                <span id="realtime"></span>
             </div>
             <div class="status-button">
                 <div class="status-button__content">
@@ -72,3 +72,21 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+
+<!-- 時間を１分ごとに更新 -->
+<script>
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        document.getElementById('realtime').textContent = `${hours}:${minutes}`;
+    }
+
+    updateClock();
+
+    setInterval(updateClock, 1000);
+</script>
+@endpush

@@ -1,4 +1,4 @@
-<!-- 勤怠一覧　/attendance/list -->
+<!-- 勤怠一覧（一般）　/attendance/list -->
 
 @extends('layouts.app')
 
@@ -33,42 +33,21 @@
                     <th>合計</th>
                     <th>詳細</th>
                 </tr>
-                <tr class="list-table__row">
-                    @foreach($attendances as $attendance)
-                        <td>{{ $attendance->date->format('m/d') }}({{ ['日','月','火','水','木','金','土'][$attendance->date->dayOfWeek] }})</td>
-                        <td>{{ optional($attendance->clock_in)->format('H:i') }}</td>
-                        <td>{{ optional($attendance->clock_out)->format('H:i') }}</td>
+
+                @foreach($rows as $row)
+                    <tr class="list-table__row">
+                        <td>{{ $row['date']->format('m/d') }}({{ $row['weekday'] }})</td>
+                        <td>{{ $row['attendance']?->clock_in?->format('H:i') }}</td>
+                        <td>{{ $row['attendance']?->clock_out?->format('H:i') }}</td>
+                        <td>{{ $row['attendance']?->break_time_formatted }}</td>
+                        <td>{{ $row['attendance']?->working_time_formatted }}</td>
                         <td>
-                            @php
-                                $breakMinutes = 0;
-
-                                foreach ($attendance->breaks as $break) {
-                                    if ($break->break_end) {
-                                        $breakMinutes +=$break->break_start->diffInMinutes($break->break_end);
-                                    }
-                                }
-                                $breakHours = floor($breakMinutes / 60);
-                                $breakMins = $breakMinutes % 60;
-                            @endphp
-
-                            {{ sprintf('%d:%02d', $breakHours, $breakMins) }}
-                        </td>
-                        <td>
-                            @if($attendance->clock_in && $attendance->clock_out)
-                                @php
-                                    $workMinutes = $attendance->clock_in->diffInMinutes($attendance->clock_out);
-                                    $netMinutes = $workMinutes - $breakMinutes;
-
-                                    $workHours = floor($netMinutes / 60);
-                                    $workMins = $netMinutes % 60;
-                                @endphp
-
-                                {{ sprintf('%d:%02d', $workHours, $workMins) }}
+                            @if($row['attendance'])
+                                <a href="{{ route('generals.detail', $row['attendance']->id) }}">詳細</a>
                             @endif
                         </td>
-                        <td><a href="">詳細</a></td>
-                    @endforeach
-                </tr>
+                    </tr>
+                @endforeach
             </table>
         </div>
     </div>

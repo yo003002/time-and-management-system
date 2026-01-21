@@ -1,3 +1,8 @@
+/* 後で消す */
+.todo {
+    color: #fff;
+}
+
 .header {
     background: #000;
 }
@@ -33,11 +38,6 @@
     color: #fff;
 }
 
-/* 後で消す */
-.todo {
-    color: #fff;
-}
-
 /* ログアウトボタン */
 .header-nav__button {
     border: none;
@@ -45,7 +45,6 @@
     background: #000;
     color: #fff;
     font-size: 20px;
-    font-weight: bold;
     padding: 10px;
     text-decoration: none;
     cursor: pointer;

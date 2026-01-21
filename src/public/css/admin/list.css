@@ -1,3 +1,4 @@
+
 .list-header {
     margin: 0 auto;
     padding: 80px 0 40px 0;
@@ -11,8 +12,8 @@
 }
 
 
-/* 月表示 */
-.month {
+/* 日表示 */
+.date {
     margin: 0 auto;
     width: 60%;
     background: #fff;
@@ -20,27 +21,27 @@
     border-radius: 10px;
 }
 
-.month-logo {
+.date-logo {
     height: 25px;
     width: 25px;
     margin-right: 7px;
     padding-bottom: 3px;
 }
 
-.month-swith {
+.date-swith {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 15px;
 }
 
-.month-swith a {
+.date-swith a {
     color: #737373;
     font-weight: bold;
     text-decoration: none;
 }
 
-.now-month {
+.now-date {
     font-weight: bold;
     font-size: 20px;
 }
@@ -55,7 +56,7 @@
 
 
 /* 勤怠一覧 */
-.list-inner {
+.admin-list-inner {
     margin: 50px auto;
     width: 60%;
     background: #fff;
@@ -63,31 +64,31 @@
     border-radius: 10px;
 }
 
-.list-table__inner {
+.admin-list-table__inner {
     width: 100%;
     table-layout: fixed;
 }
 
-.list-table__row th {
+.admin-list-table__row th {
     padding: 10px 0;
     color: #737373;
     font-weight: bold;
     border-bottom: 3px solid #e1e1e1;
 }
 
-.list-table__row th:nth-child(1) {
+.admin-list-table__row th:nth-child(1) {
     width: 25%;
 }
 
-.list-table__row th:nth-child(2),
-.list-table__row th:nth-child(3),
-.list-table__row th:nth-child(4),
-.list-table__row th:nth-child(5),
-.list-table__row th:nth-child(6) {
+.admin-list-table__row th:nth-child(2),
+.admin-list-table__row th:nth-child(3),
+.admin-list-table__row th:nth-child(4),
+.admin-list-table__row th:nth-child(5),
+.admin-list-table__row th:nth-child(6) {
     width: 15%;
 }
 
-.list-table__row td {
+.admin-list-table__row td {
     padding: 10px 0;
     color: #737373;
     font-weight: bold;
@@ -95,12 +96,12 @@
     border-bottom: 2px solid #e1e1e1;
 }
 
-.list-table__row:last-child td {
+.admin-list-table__row:last-child td {
     border-bottom: none;
 }
 
 /* 詳細ボタン */
-.list-table__row td a {
+.admin-list-table__row td a {
     padding: 10px 0;
     color: #000000;
     font-weight: bold;

@@ -11,6 +11,7 @@
     <div class="login-form__heading">
         <h1>ログイン</h2>
     </div>
+    todo 管理者はここからログインできないようにする
     <form action="/login" class="form" method="post">
         @csrf
         <div class="form__group">

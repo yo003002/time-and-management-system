@@ -12,6 +12,7 @@
         <h1>管理者ログイン</h2>
     </div>
     <form action="/login" class="form" method="post">
+        todo 一般ユーザーはここからログインできないようにする
         @csrf
         <div class="form__group">
             <div class="form__group-title">

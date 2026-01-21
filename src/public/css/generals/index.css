@@ -1,8 +1,3 @@
-.attendance-content {
-    background-color: #f0eff2;
-    height: 100vh;
-}
-
 .attendance-inner {
     display: flex;
     justify-content: center;

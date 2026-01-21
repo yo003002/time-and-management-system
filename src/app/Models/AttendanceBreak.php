@@ -19,4 +19,9 @@ class AttendanceBreak extends Model
         'break_start' => 'datetime',
         'break_end' => 'datetime',
     ];
+
+    public function attendance()
+    {
+        return $this->belongsTo(Attendance::class);
+    }
 }

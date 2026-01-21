@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Attendance Management</title>
     <link rel="stylesheet" href="{{ asset('css/sanitize.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/common.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/common-admin.css') }}">
     @yield('css')
 </head>
 <body>
@@ -22,16 +22,10 @@
                         </div>
 
                         <li class="header-nav__item">
-                            <a href="{{ route('generals.index') }}" class="attendance">勤怠</a>
+                            <a href="{{ route('admin.list') }}" class="attendance">勤怠一覧</a>
                         </li>
                         <li class="header-nav__item">
-                            <a href="{{ route('generals.list') }}" class="attendance">勤怠一覧</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <a href="" class="attendance">申請</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <a href="" class="attendance">今月の出勤一覧</a>
+                            <a href="" class="attendance">スタッフ一覧</a>
                         </li>
                         <li class="header-nav__item">
                             <a href="" class="attendance">申請一覧</a>
