@@ -99,7 +99,7 @@ class AttendanceController extends Controller
         return redirect()->back();
     }
 
-    // 勤怠一覧
+    // その月の勤怠一覧（一般）
     public function list(Request $request)
     {
         $user = auth()->user();
@@ -135,7 +135,7 @@ class AttendanceController extends Controller
         return view('generals.list', compact('rows', 'month'));
     }
 
-    // 勤怠詳細
+    // 勤怠詳細（一般）
     public function detail($id)
     {
         $attendance = Attendance::with([
@@ -149,8 +149,8 @@ class AttendanceController extends Controller
         abort_if($attendance->user_id !== auth()->id(), 403);
 
         $correction = 
-            $attendance->approvedCorrection
-            ?? $attendance->pendingCorrection;
+            $attendance->pendingCorrection
+            ?? $attendance->approvedCorrection;
 
         // 承認待ちの判定
         $isPending = $correction && $correction->status === 'pending';
@@ -180,8 +180,10 @@ class AttendanceController extends Controller
                 'end'  => optional($b->break_end)->format('H:i'),
             ]);
         }
+
+        $canEdit = is_null($attendance->pendingCorrection);
         
-        if (!$hasCorrection) {
+        if ($canEdit) {
             $displayBreaks->push((object) [
                 'start' => '',
                 'end' => '',
@@ -200,13 +202,6 @@ class AttendanceController extends Controller
         ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -216,6 +211,8 @@ class AttendanceController extends Controller
         $attendance = Attendance::findOrFail($attendanceId);
 
         abort_if($attendance->user_id !== auth()->id(), 403);
+
+        abort_if($attendance->pendingCorrection, 403);
 
         $breaks = collect($request->breaks ?? [])
             ->filter(function ($break) {
@@ -244,9 +241,31 @@ class AttendanceController extends Controller
         return redirect()->route('generals.detail', $attendance->id);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
+    // 申請一覧（一般）
+    public function correctionList(Request $request)
+    {
+        $status = $request->query('status', 'pending');
+
+        $query = AttendanceCorrection::with('attendance.user')
+            ->where('status', $status);
+
+        if (! auth()->user()->can('admin')) {
+            $query->whereHas('attendance', function ($q) {
+                $q->where('user_id', auth()->id());
+            });
+        }
+
+        $corrections = $query->latest()->get();
+
+        return view('corrections.list', compact('corrections', 'status'));
+    }
+
+
+
+    // ～以降管理者～
+
+    // その日の勤怠一覧（管理者）
     public function adminList(Request $request)
     {
         $date = $request->date
@@ -261,32 +280,178 @@ class AttendanceController extends Controller
                 $query->whereDate('date', $date)
                     ->with('breaks');
             }])
-            ->get();
+            ->get()
+            ->map(function ($user) {
+                $user->attendance = $user->attendances->first();
+                return $user;
+            });
 
         return view('admin.list', compact('users', 'date'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    // 勤怠詳細（管理者）
+    public function adminDetail($id)
     {
-        //
+        $attendance = Attendance::with([
+            'breaks',
+            'approvedCorrection',
+            'pendingCorrection',
+            'user',
+        ])->findOrFail($id);
+
+        abort_if(auth()->user()->role !== 'admin', 403);
+
+        $correction = 
+            $attendance->pendingCorrection
+            ?? $attendance->approvedCorrection;
+
+        $isPending = $correction && $correction->status === 'pending';
+
+        $remark = $correction?->remark ?? '';
+
+        $date = Carbon::parse($attendance->date);
+
+        $clockIn = $correction?->clock_in ?? $attendance->clock_in;
+        $clockOut = $correction?->clock_out ?? $attendance->clock_out;
+
+        $hasCorrection = !is_null($correction);
+
+        $displayBreaks = collect($correction?->breaks ?? [])
+            ->map(fn ($b) => (object) [
+                'start' => $b['start'] ?? '',
+                'end' => $b['end'] ?? '',
+            ]);
+
+        if ($displayBreaks->isEmpty()) {
+            $displayBreaks = $attendance->breaks->map(fn ($b) => (object) [
+                'start' => optional($b->break_start)->format('H:i'),
+                'end' => optional($b->break_end)->format('H:i'),
+            ]);
+        }
+        
+        $canEdit = is_null($attendance->pendingCorrection);
+        
+        if ($canEdit) {
+            $displayBreaks->push((object) [
+                'start' => '',
+                'end' => '',
+            ]);
+        }
+
+        return view('admin.detail', compact(
+            'attendance',
+            'correction',
+            'isPending',
+            'canEdit',
+            'date',
+            'clockIn',
+            'clockOut',
+            'displayBreaks',
+            'remark',
+        ));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+
+    public function adminStore(Request $request, $attendanceId)
     {
-        //
+        abort_if(auth()->user()->role !=='admin', 403);
+
+        $attendance = Attendance::findOrFail($attendanceId);
+
+        abort_if($attendance->pendingCorrection, 403);
+
+        $breaks = collect($request->breaks ?? [])
+            ->filter(function ($break) {
+                    return !empty($break['start']) && !empty($break['end']);
+                })
+                ->values()
+                ->toArray();
+
+        $clockIn = $request->clock_in
+            ? Carbon::parse($attendance->date)->setTimeFromTimeString($request->clock_in)
+            : null;
+
+        $clockOut = $request->clock_out
+            ? Carbon::parse($attendance->date)->setTimeFromTimeString($request->clock_out)
+            : null;
+
+        $attendance->update([
+            'clock_in' => $clockIn,
+            'clock_out' => $clockOut,
+            'breaks' => $breaks,
+        ]);
+
+        $attendance->breaks()->delete();
+
+        foreach ($breaks as $break) {
+            $attendance->breaks()->create([
+                'break_start' => Carbon::parse($attendance->date)
+                    ->setTimeFromTimeString($break['start']),
+                'break_end' => Carbon::parse($attendance->date)
+                    ->setTimeFromTimeString($break['end']),
+            ]);
+        }
+
+        AttendanceCorrection::create([
+            'attendance_id' => $attendance->id,
+            'clock_in' => $clockIn,
+            'clock_out' => $clockOut,
+            'breaks' => $breaks,
+            'status' => 'approved',
+            'approved_by' => auth()->id(),
+        ]);
+
+        return redirect()->route('admin.detail', $attendance->id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // スタッフ一覧
+    public function staffList()
     {
-        //
+        $staffs = User::where('role', 'user')->get();
+
+        return view('admin.staff-list', compact('staffs'));
+    }
+
+    // 各スタッフの月次勤怠一覧
+    public function staffAttendanceList(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $month = $request->input('month')
+            ? Carbon::createFromFormat('Y-m', $request->input('month'))
+            : now();
+
+        $start = $month->copy()->startOfMonth();
+        $end = $month->copy()->endOfMonth();
+
+        $attendances = Attendance::with('breaks')
+            ->where('user_id', $user->id)
+            ->whereBetWeen('date', [$start, $end])
+            ->orderBy('date')
+            ->get()
+            ->keyBy(fn ($a) => $a->date->format('Y-m-d'));
+
+        $dates = CarbonPeriod::create($start, $end);
+
+        $rows = collect($dates)->map(function ($date) use ($attendances) {
+            $attendance = $attendances->get($date->format('Y-m-d'));
+
+            return [
+                'date' => $date,
+                'attendance' => $attendance,
+                'weekday' => ['日', '月', '火', '水', '木', '金', '土',][$date->dayOfWeek],
+            ];
+        });
+
+        return view('admin.staff-attendance-list', compact('rows', 'month', 'user'));
+    }
+
+    // 修正申請承認
+    public function approveFrom($id)
+    {
+        $correction = AttendanceCorrection::with('attendance.user')
+            ->findOrFail($id);
+
+        return view('admin.correction.approve', compact('correction'));
     }
 }

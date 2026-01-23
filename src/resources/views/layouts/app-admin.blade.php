@@ -16,19 +16,14 @@
                 <nav>
                     <ul class="header-nav">
 
-                        <!-- 後で消す -->
-                        <div class="todo">
-                        todo ヘッダーナビ編集
-                        </div>
-
                         <li class="header-nav__item">
                             <a href="{{ route('admin.list') }}" class="attendance">勤怠一覧</a>
                         </li>
                         <li class="header-nav__item">
-                            <a href="" class="attendance">スタッフ一覧</a>
+                            <a href="{{ route('admin.staffList') }}" class="attendance">スタッフ一覧</a>
                         </li>
                         <li class="header-nav__item">
-                            <a href="" class="attendance">申請一覧</a>
+                            <a href="{{ route('corrections.list') }}" class="attendance">申請一覧</a>
                         </li>
                         @auth
                         <li class="header-nav__item">

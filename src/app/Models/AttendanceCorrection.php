@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Attendance;
 
 class AttendanceCorrection extends Model
 {
@@ -23,4 +24,9 @@ class AttendanceCorrection extends Model
         'clock_out' => 'datetime',
         'breaks' => 'array',
     ];
+
+    public function attendance()
+    {
+        return $this->belongsTo(Attendance::class);
+    }
 }

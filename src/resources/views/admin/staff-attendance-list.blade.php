@@ -1,25 +1,31 @@
-<!-- 月次勤怠一覧（一般）　/attendance/list -->
+<!-- 各スタッフ月次勤怠一覧（管理者）　/admin/attendance/staff/list -->
 
-@extends('layouts.app')
+@extends('layouts.app-admin')
 
 @section('css')
-<link rel="stylesheet" href="{{ asset('css/generals/list.css') }}">
+<link rel="stylesheet" href="{{ asset('css/admin/staff-attendance-list.css') }}">
 @endsection
 
 @section('content')
 <div class="list-content">
     <div class="list-header">
-        <h1 class="header-title">勤怠一覧</h1>
+        <h1 class="header-title">{{ $user->name }}さんの勤怠一覧</h1>
     </div>
     <div class="month">
         <div class="month-swith">
-            <a href="{{ route('generals.list', ['month' => $month->copy()->subMonth()->format('Y-m')]) }}"><span class="arrow">←</span>前月</a>
+            <a href="{{ route('admin.staffAttendanceList', [
+                'id' => $user->id,
+                'month' => $month->copy()->subMonth()->format('Y-m')]) }}">
+                <span class="arrow">←</span>前月</a>
 
             <span class="now-month">
                 <img class="month-logo" src="{{ asset('images/icon_125550.svg') }}" alt="カレンダーロゴ">{{ $month->format('Y/m') }}
             </span>
 
-            <a href="{{ route('generals.list', ['month' => $month->copy()->addMonth()->format('Y-m')]) }}">翌月<span class="arrow">→</span></a>
+            <a href="{{ route('admin.staffAttendanceList', [
+                'id' => $user->id,
+                'month' => $month->copy()->addMonth()->format('Y-m')]) }}">
+                翌月<span class="arrow">→</span></a>
         </div>
     </div>
 
@@ -44,7 +50,7 @@
                         <td>{{ $row['attendance']?->working_time_formatted }}</td>
                         <td>
                             @if($row['attendance'])
-                                <a href="{{ route('generals.detail', $row['attendance']->id) }}">詳細</a>
+                                <a href="{{ route('admin.detail', $row['attendance']->id) }}">詳細</a>
                             @endif
                         </td>
                     </tr>

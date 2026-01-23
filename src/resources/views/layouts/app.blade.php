@@ -16,11 +16,6 @@
                 <nav>
                     <ul class="header-nav">
 
-                        <!-- 後で消す -->
-                        <div class="todo">
-                        todo ヘッダーナビ編集
-                        </div>
-
                         <li class="header-nav__item">
                             <a href="{{ route('generals.index') }}" class="attendance">勤怠</a>
                         </li>
@@ -28,14 +23,9 @@
                             <a href="{{ route('generals.list') }}" class="attendance">勤怠一覧</a>
                         </li>
                         <li class="header-nav__item">
-                            <a href="" class="attendance">申請</a>
+                            <a href="{{ route('corrections.list') }}" class="attendance">申請</a>
                         </li>
-                        <li class="header-nav__item">
-                            <a href="" class="attendance">今月の出勤一覧</a>
-                        </li>
-                        <li class="header-nav__item">
-                            <a href="" class="attendance">申請一覧</a>
-                        </li>
+
                         @auth
                         <li class="header-nav__item">
                             <form  action="/logout" method="post">

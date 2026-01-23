@@ -11,7 +11,6 @@
     <div class="login-form__heading">
         <h1>ログイン</h2>
     </div>
-    todo 管理者はここからログインできないようにする
     <form action="/login" class="form" method="post">
         @csrf
         <div class="form__group">
@@ -21,6 +20,7 @@
             <div class="form__group-content">
                 <div class="form__input--text">
                     <input type="email" name="email" value="{{ old('email') }}">
+                    <input type="hidden" name="login_type" value="user">
                 </div>
                 <div class="form__error">
                     @error('email')
@@ -36,6 +36,7 @@
             <div class="form__group-content">
                 <div class="form__input--text">
                     <input type="password" name="password">
+                    <input type="hidden" name="login_type" value="user">
                 </div>
                 <div class="form__error">
                     @error('password')
