@@ -9,18 +9,17 @@
 @section('content')
 <div class="corrections-list-content">
     <div class="corrections-list-header">
-        todo 二重申請防止（store） も入れる
         <h1 class="corrections-header-title">申請一覧</h1>
     </div>
 
-    <div class="approve">
-        <div class="approve-list">
+    <div class="approve-btn">
+        <div class="approve-btn-list">
             <a href="{{ route('corrections.list', ['status' => 'pending']) }}"
             class="{{ $status === 'pending' ? 'tab active' : 'tab' }}">
                 承認待ち
             </a>
         </div>
-        <div class="approve-list">
+        <div class="approve-btn-list">
             <a href="{{ route('corrections.list', ['status' => 'approved']) }}" 
             class="{{ $status === 'approved' ? 'tab active' : 'tab' }}">
                 承認済み
@@ -48,7 +47,7 @@
                         <td>{{ $correction->remark }}</td>
                         <td>{{ $correction->created_at->format('Y/m/d') }}</td>
                         <td>
-                            <a href="{{ route('generals.detail', $correction->attendance->id) }}">詳細</a>
+                            <a href="{{ $correction->detail_url }}">詳細</a>
                         </td>
                     </tr>
                 @endforeach

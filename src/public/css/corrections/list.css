@@ -13,7 +13,7 @@
 }
 
 /* 承認待ち・済みボタン */
-.approve {
+.approve-btn {
     width: 60%;
     margin: 0 auto;
     border-bottom: 1.5px solid #000000;
@@ -21,11 +21,11 @@
     justify-content: left;
 }
 
-.approve-list {
+.approve-btn-list {
     margin: 10px 0 15px 50px;
 }
 
-.approve-list a {
+.approve-btn-list a {
     border: none;
     font-size: 18px;
     text-decoration: none;

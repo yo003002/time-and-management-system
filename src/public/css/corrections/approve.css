@@ -1,4 +1,4 @@
-.detail-header {
+.approve-detail-header {
     margin: 0 auto;
     padding: 80px 0 30px 0;
     width: 60%;
@@ -12,7 +12,7 @@
 
 
 /* 勤怠詳細内容 */
-.detail-list {
+.approve-detail-list {
     margin: 30px auto;
     width: 60%;
     background: #fff;
@@ -20,15 +20,15 @@
     border-radius: 10px;
 }
 
-.detail-table__inner {
+.approve-detail-table__inner {
     width: 100%;
 }
 
-.detail-table__row {
+.approve-detail-table__row {
     table-layout: fixed;
 }
 
-.detail-table__row th {
+.approve-detail-table__row th {
     padding: 0 50px;
     text-align: left;
     color: #737373;
@@ -38,34 +38,34 @@
     border-bottom: 2px solid #e1e1e1;
 }
 
-.detail-table__row:last-child th {
+.approve-detail-table__row:last-child th {
     border-bottom: none;
 }
 
-.detail-table__row td {
+.approve-detail-table__row td {
     border-bottom: 2px solid #e1e1e1;
 }
 
-.detail-table__row:last-child td {
+.approve-detail-table__row:last-child td {
     border-bottom: none;
 }
 
 /* 名前 */
-.detail-name {
+.approve-detail-name {
     padding: 12px;
     font-size: 16x;
     font-weight: bold;
 }
 
 /* 日付 */
-.detail-date {
+.approve-detail-date {
     display: flex;
     justify-content: space-between;
     width: 60%;
     padding: 3px;
 }
 
-.detail-date p {
+.approve-detail-date p {
     margin: 0;
     width: 100%;
     padding: 0 10px;
@@ -73,51 +73,37 @@
     font-weight: bold;
 }
 
-/* 出勤・退勤・休憩input共通 */
-.time-input {
-    margin: 0;
-    width: 85px;
-    padding: 0 12px;
-    border: 1.5px solid #e1e1e1;
-    border-radius: 3px;
-    color: #000000;
-    font-size: 16px;
-    font-weight: bold;
-    outline: none;
-}
-
-/* input・textareaがdisabledの時枠無し */
-.time-input:disabled,
-.detail-table__inner textarea:disabled {
-    border: none;
-    background-color: #fff;
-}
-
 /* ～ */
 .hyphen {
+    display: flex;
+    align-items: center;
     font-weight: bold;
 }
 
 /* 出勤・退勤 */
-.detail-attendance {
+.approve-detail-attendance {
     display: flex;
     justify-content: space-between;
     width: 60%;
+}
+
+.approve-detail-attendance p {
+    font-size: 16px;
+    font-weight: bold;
+    padding: 0 15px;
 }
 
 /* 休憩 */
-.detail-break {
+.approve-detail-break {
     display: flex;
     justify-content: space-between;
+    padding: 0 15px;
     width: 60%;
-}
-
-.detail-break p input {
     font-weight: bold;
 }
 
 /* 備考 */
-.detail-table__inner textarea {
+.approve-detail-table__inner textarea {
     padding: 10px;
     height: 70px;
     width: 60%;
@@ -131,8 +117,8 @@
     resize: none;
 }
 
-/* 修正ボタン */
-.detail-button {
+/* 承認ボタン */
+.approve-detail-button {
     margin: 0 auto;
     width: 60%;
     text-align: right;
@@ -152,13 +138,16 @@
     cursor: pointer;
 }
 
-/* 承認待ちメッセージ */
-.waiting-message {
-    margin: 0 auto;
-    width: 60%;
-    color: #f87879;
+.detail-button__disabled {
+    background: #696969;
+    height: 100%;
+    width: 100px;
+    line-height: 50px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
     font-weight: bold;
-    text-align: right;
+    font-size: 18px;
 }
 
 /* * {

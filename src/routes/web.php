@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/admin/attendance/staff/{id}', [AttendanceController::class, 'staffAttendanceList'])->name('admin.staffAttendanceList');
 
         // 修正申請承認画面
-        Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AttendanceController::class, 'approveFrom'])->name('correction.approve.from');
+        Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AttendanceController::class, 'approveForm'])->name('correction.approve.form');
 
-        Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}', [AttendanceController::class, 'approveFrom'])->name('correction.approve');
+        Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}', [AttendanceController::class, 'approve'])->name('correction.approve');
     });

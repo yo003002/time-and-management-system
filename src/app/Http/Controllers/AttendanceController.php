@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\Attendance;
@@ -233,7 +234,7 @@ class AttendanceController extends Controller
             'attendance_id' => $attendance->id,
             'clock_in' => $clockIn,
             'clock_out' => $clockOut,
-            'breaks' => $breaks,
+            'breaks' => empty($breaks) ? null : $breaks,
             'remark' => $request->remark,
             'status' => 'pending',
         ]);
@@ -242,7 +243,7 @@ class AttendanceController extends Controller
     }
 
 
-    // 申請一覧（一般）
+    // 申請一覧（一般・管理者共通）
     public function correctionList(Request $request)
     {
         $status = $request->query('status', 'pending');
@@ -257,6 +258,12 @@ class AttendanceController extends Controller
         }
 
         $corrections = $query->latest()->get();
+
+        $corrections->each(function ($correction) {
+            $correction->detail_url = auth()->user()->can('admin')
+                ? route('correction.approve.form', $correction->id)
+                : route('generals.detail', $correction->attendance->id);
+        });
 
         return view('corrections.list', compact('corrections', 'status'));
     }
@@ -375,10 +382,12 @@ class AttendanceController extends Controller
             ? Carbon::parse($attendance->date)->setTimeFromTimeString($request->clock_out)
             : null;
 
+        $breaksForSave = empty($breaks) ? null : $breaks;
+
         $attendance->update([
             'clock_in' => $clockIn,
             'clock_out' => $clockOut,
-            'breaks' => $breaks,
+            'breaks' => $breaksForSave,
         ]);
 
         $attendance->breaks()->delete();
@@ -396,7 +405,7 @@ class AttendanceController extends Controller
             'attendance_id' => $attendance->id,
             'clock_in' => $clockIn,
             'clock_out' => $clockOut,
-            'breaks' => $breaks,
+            'breaks' => $breaksForSave,
             'status' => 'approved',
             'approved_by' => auth()->id(),
         ]);
@@ -446,12 +455,49 @@ class AttendanceController extends Controller
         return view('admin.staff-attendance-list', compact('rows', 'month', 'user'));
     }
 
-    // 修正申請承認
-    public function approveFrom($id)
+    // 修正申請承認画面表示
+    public function approveForm($id)
     {
         $correction = AttendanceCorrection::with('attendance.user')
             ->findOrFail($id);
 
-        return view('admin.correction.approve', compact('correction'));
+        return view('corrections.approve', compact('correction'));
+    }
+
+    // 承認機能
+    public function approve($id)
+    {
+        $correction = AttendanceCorrection::with('attendance')
+            ->findOrFail($id);
+
+        if ($correction->status === 'approved') {
+            return back();
+        }
+
+        DB::transaction(function () use ($correction) {
+            $attendance = $correction->attendance;
+
+            $attendance->update([
+                'clock_in' => $correction->clock_in,
+                'clock_out' => $correction->clock_out,
+            ]);
+
+            $attendance->breaks()->delete();
+
+            foreach ($correction->breaks ?? [] as $break) {
+                AttendanceBreak::create([
+                    'attendance_id' => $attendance->id,
+                    'break_start' => $break['start'],
+                    'break_end' => $break['end'],
+                ]);
+            }
+
+            $correction->update([
+                'status' => 'approved',
+            ]);
+        });
+
+        return redirect()
+            ->route('correction.approve.form', $correction->id);
     }
 }
