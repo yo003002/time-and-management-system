@@ -1,0 +1,51 @@
+.verify-content {
+    max-width: 1230px;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+.verify-message {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: 100px;
+    text-align: center;
+}
+
+
+.verify-resend {
+    width: 160px;
+    height: 40px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.verify-resend p {
+    margin: 0;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    line-height: 40px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 15px;
+    background: #d9d9d9;
+}
+
+
+.resend-massage {
+    width: 160px;
+    height: 40px;
+    margin: 40px auto;
+}
+
+.verify-form__button {
+    text-decoration: none;
+    font-size: 14px;
+    width: 100%;
+    text-align: center;
+    color: #0073cc;
+    background: #fff;
+    border: none;
+    cursor: pointer;
+}

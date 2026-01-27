@@ -16,7 +16,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     })->middleware('can:admin');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('generals.index');
 
