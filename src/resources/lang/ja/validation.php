@@ -2,9 +2,20 @@
 
 // todo エラーメッセージ編集
 return [
-    'required' => ':attribute は必須です。',
+    'required' => ':attributeを入力してください',
+    
     'email' => ':attribute は有効なメールアドレス形式で入力してください。',
+    
     'min' => [
-        'string' => ':attribute は :min 文字以上で入力してください。',
+        'string' => ':attributeを:min文字以上で入力してください。',
+        ],
+        
+    'confirmed' => ':attributeと一致しません。',
+    
+    'attributes' => [
+        'name' => 'お名前',
+        'email' => 'メールアドレス',
+        'password' => 'パスワード',
+        'password_confirmation' => '確認用パスワード',
     ],
 ];

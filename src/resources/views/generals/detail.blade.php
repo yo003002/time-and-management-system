@@ -35,11 +35,19 @@
                         <th>出勤・退勤</th>
                         <td>
                             <div class="detail-attendance">
-                                <input type="text" name="clock_in" class="time-input" value="{{ optional($clockIn)->format('H:i') }}"{{ $isPending ? 'disabled' : '' }}>
+                                <input type="text" name="clock_in" class="time-input" value="{{ old('clock_in', optional($clockIn)->format('H:i')) }}"{{ $isPending ? 'disabled' : '' }}>
                                 
                                 <span class="hyphen">～</span>
-                                <input type="text" name="clock_out" class="time-input" value="{{ optional($clockOut)->format('H:i') }}"{{ $isPending ? 'disabled' : '' }}>
-                                
+                                <input type="text" name="clock_out" class="time-input" value="{{ old('clock_out', optional($clockOut)->format('H:i')) }}"{{ $isPending ? 'disabled' : '' }}>
+                            </div>
+                            <div class="form__error">
+                                @error('clock_in')
+                                    {{ $message }}
+                                @enderror
+
+                                @error('clock_out')
+                                    {{ $message }}
+                                @enderror
                             </div>
                         </td>
                     </tr>
@@ -50,12 +58,20 @@
                             <td>
                                 <div class="detail-break">
                                     <input type="text" name="breaks[{{ $i }}][start]" class="time-input"
-                                    value="{{ $break->start }}"{{ $isPending ? 'disabled' : '' }}>
+                                    value="{{ old("breaks.$i.start", $break->start) }}"{{ $isPending ? 'disabled' : '' }}>
                                     
                                     <span class="hyphen">～</span>
 
-                                    <input type="text" name="breaks[{{ $i }}][end]" class="time-input" value="{{ $break->end }}"{{ $isPending ? 'disabled' : '' }}>
+                                    <input type="text" name="breaks[{{ $i }}][end]" class="time-input" value="{{ old("breaks.$i.end", $break->end) }}"{{ $isPending ? 'disabled' : '' }}>
                                     
+                                </div>
+                                <div class="form__error">
+                                    @error("breaks.$i.start")
+                                        {{ $message }}
+                                    @enderror
+                                    @error("breaks.$i.end")
+                                        {{ $message }}
+                                    @enderror
                                 </div>
                             </td>
                         </tr>
@@ -65,6 +81,11 @@
                         <th>備考</th>
                         <td>
                         <textarea name="remark" {{ $isPending ? 'disabled' : '' }}>{{ $remark }}</textarea>
+                        <div class="form__error">
+                            @error('remark')
+                                {{ $message }}
+                            @enderror
+                        </div>
                         </td>
                     </tr>
                 </table>

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use App\Http\Requests\StoreAttendanceRequest;
+use App\Http\Requests\AdminAttendanceRequest;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
 use App\Models\AttendanceCorrection;
@@ -207,7 +209,7 @@ class AttendanceController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $attendanceId)
+    public function store(StoreAttendanceRequest $request, $attendanceId)
     {
         $attendance = Attendance::findOrFail($attendanceId);
 
@@ -359,7 +361,7 @@ class AttendanceController extends Controller
     }
 
 
-    public function adminStore(Request $request, $attendanceId)
+    public function adminStore(AdminAttendanceRequest $request, $attendanceId)
     {
         abort_if(auth()->user()->role !=='admin', 403);
 

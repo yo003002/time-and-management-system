@@ -10,7 +10,6 @@
     border-left: 10px solid #000000;
 }
 
-
 /* 勤怠詳細内容 */
 .detail-list {
     margin: 30px auto;
@@ -44,6 +43,7 @@
 
 .detail-table__row td {
     border-bottom: 2px solid #e1e1e1;
+    padding: 0;
 }
 
 .detail-table__row:last-child td {
@@ -73,11 +73,21 @@
     font-weight: bold;
 }
 
+/* エラー */
+.form__error {
+    height: 20px;
+    color: #ff0000;
+    text-align: left;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
 /* 出勤・退勤・休憩input共通 */
 .time-input {
-    margin: 0;
+    margin: 20px 0 0 0;
     width: 85px;
-    padding: 0 12px;
+    padding: 2px 12px;
     border: 1.5px solid #e1e1e1;
     border-radius: 3px;
     color: #000000;
@@ -96,6 +106,8 @@
 /* ～ */
 .hyphen {
     font-weight: bold;
+    display: flex;
+    align-items: flex-end;
 }
 
 /* 出勤・退勤 */
@@ -118,6 +130,7 @@
 
 /* 備考 */
 .detail-table__inner textarea {
+    margin: 15px 0 0 0;
     padding: 10px;
     height: 70px;
     width: 60%;
@@ -129,6 +142,7 @@
     font-weight: bold;
     outline: none;
     resize: none;
+    overflow: hidden;
 }
 
 /* 修正ボタン */

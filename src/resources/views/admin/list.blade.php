@@ -1,6 +1,6 @@
 <!-- 勤怠一覧画面（管理者） -->
 
-@extends('layouts.app-admin')
+@extends('layouts.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/admin/list.css') }}">

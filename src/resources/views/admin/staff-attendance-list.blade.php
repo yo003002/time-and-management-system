@@ -1,6 +1,6 @@
 <!-- 各スタッフ月次勤怠一覧（管理者）　/admin/attendance/staff/list -->
 
-@extends('layouts.app-admin')
+@extends('layouts.app')
 
 @section('css')
 <link rel="stylesheet" href="{{ asset('css/admin/staff-attendance-list.css') }}">
