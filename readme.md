@@ -60,11 +60,10 @@ DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD の値を変更
 
 [![Image from Gyazo](https://i.gyazo.com/2a9477db28b24ca194ac6e3d69aafd58.png)](https://gyazo.com/2a9477db28b24ca194ac6e3d69aafd58)
 
-#### `mailhog`の設定
+#### mailhogの設定
 
-MAIL_SCHEMEの削除　MAIL_ENCRYPTIONの追加
-MAIL_MAILER・MAIL_HOST・MAIL_PORT　の値変更
-[![Image from Gyazo](https://i.gyazo.com/6e6c1077efad39c07aa1d6b4bb099c15.png)]
+MAIL_SCHEMEの削除　MAIL_ENCRYPTIONの追加　MAIL_MAILER・MAIL_HOST・MAIL_PORT　の値変更
+![Image from Gyazo](https://i.gyazo.com/6e6c1077efad39c07aa1d6b4bb099c15.png)
 
 #### npm の実行
 
