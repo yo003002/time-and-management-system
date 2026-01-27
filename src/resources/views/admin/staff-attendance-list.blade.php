@@ -1,4 +1,4 @@
-<!-- 各スタッフ月次勤怠一覧（管理者）　/admin/attendance/staff/list -->
+<!-- 各スタッフ月次勤怠一覧（管理者）　/admin/attendance/staff/{id} -->
 
 @extends('layouts.app')
 
@@ -57,6 +57,13 @@
                 @endforeach
             </table>
         </div>
+    </div>
+    <div class="csv">
+        <a href="{{ route('admin.attendance.staff.csv', [
+            'id' => $user->id,
+            'month' => $month->format('Y-m')]) }}" class="csv-btn">
+        CSV出力
+        </a>
     </div>
 </div>
 @endsection

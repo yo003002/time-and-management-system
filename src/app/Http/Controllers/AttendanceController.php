@@ -457,6 +457,80 @@ class AttendanceController extends Controller
         return view('admin.staff-attendance-list', compact('rows', 'month', 'user'));
     }
 
+    // 各スタッフの月次勤怠一覧のCSV出力
+    public function exportStaffMonthly(Request $request, $id)
+    {
+        $month = $request->query('month');
+        [$year, $monthNumber] = explode('-', $month);
+
+        $user = User::findOrFail($id);
+
+        $attendances = Attendance::with('breaks')
+            ->where('user_id', $id)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $monthNumber)
+            ->orderBy('date')
+            ->get();
+
+        $fileName = "attendance_{$user->name}_{$month}.csv";
+
+        $headers = [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename={$fileName}",
+        ];
+
+        $callback = function () use ($attendances, $user) {
+            $handle = fopen('php://output', 'w');
+
+            fwrite($handle, "\xEF\xBB\xBF");
+
+            fputcsv($handle, [
+                '日付',
+                '出勤',
+                '退勤',
+                '休憩',
+                '合計',
+            ]);
+
+            $weekdays = ['日', '月', '火', '水', '木', '金', '土',];
+
+            foreach ($attendances as $attendance) {
+                $breakMinutes = $attendance->breaks->sum(function ($break) {
+                    if (!$break->break_end) {
+                        return 0;
+                    }
+
+                    return Carbon::parse($break->break_start)
+                        ->diffInMinutes(Carbon::parse($break->break_end));
+                });
+
+                $workingMinutes = null;
+
+                if ($attendance->clock_in && $attendance->clock_out) {
+                    $workingMinutes = Carbon::parse($attendance->clock_in)
+                        ->diffInMinutes(Carbon::parse($attendance->clock_out))
+                        - $breakMinutes;
+                }
+
+                $dateFormatted = $attendance->date->format('Y/m/d');
+                $weekday = $weekdays[$attendance->date->dayOfWeek];
+                $fullDate = "{$dateFormatted}({$weekday})";
+
+                fputcsv($handle, [
+                    $fullDate,
+                    optional($attendance->clock_in)?->format('H:i'),
+                    optional($attendance->clock_out)?->format('H:i'),
+                    gmdate('H:i', $breakMinutes * 60),
+                    $workingMinutes !== null ? gmdate('H:i', $workingMinutes * 60) : '',
+                ]);
+            }
+
+            fclose($handle);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
     // 修正申請承認画面表示
     public function approveForm($id)
     {
