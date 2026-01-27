@@ -75,11 +75,16 @@ npm install
 npm run build
 ```
 ### keyの作成
-- php artisan key:generate
-
+```
+php artisan key:generate
+```
 ### DATABASEの作成
-- php artisan migrate
-- php artisan db:seed
+```
+php artisan migrate
+```
+```
+php artisan db:seed
+```
 
 
 # ④ laravel のテスト環境を作成
