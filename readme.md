@@ -3,13 +3,13 @@
 github よりソースを取得する
 
 ```
-git clone https://github.com/yo003002/laravel-template.git
+git clone https://github.com/yo003002/time-and-management-system.git
 ```
 
 階層を変更する
 
 ```
-cd laravel-template
+cd time-and-management-system
 ```
 
 laravel のプロジェクト名に、フォルダ名を変換する
@@ -18,7 +18,6 @@ laravel のプロジェクト名に、フォルダ名を変換する
 # ② docker compose
 
 `先ほど変更したフォルダ名がVSCodeのトップになっていることを必ず確認すること`  
-[![Image from Gyazo](https://i.gyazo.com/6de13ed9f6ab4f0fdc4d5a0b83c4f514.png)](https://gyazo.com/6de13ed9f6ab4f0fdc4d5a0b83c4f514)
 
 docker をインストールしていない場合は、使用中の PC に合わせてインストール  
 https://www.docker.com/get-started/
@@ -30,24 +29,20 @@ https://www.docker.com/get-started/
 > **もし docker compose が動かない場合**
 > docker-compose に読み替えて実行してみてください。
 
-#### laravel バージョン 9 の場合
-
-`composer create-project "laravel/laravel=9.*" .`
-
-#### laravel バージョン 10 の場合
-
-`composer create-project "laravel/laravel=10.*" .`
-
-#### laravel バージョン 11 の場合
-
-`composer create-project "laravel/laravel=11.*" .`
 
 ```
 もし、  
 Project directory "/var/www/." is not empty.   
 というエラーが出たら、srcフォルダの中の .gitkeep は削除して、再度実行してください。  
 ```
+ Your requirements could not be resolved to an installable set of packages.　で弾かれた場合、下記のコードでblock-insecure を無効にして、再度ダウンロードする
+ 
+`composer config --global audit.block-insecure false`
 
+## パッケージのインストール
+```
+composer install
+```
 
 # ③ laravel の環境を修正
 
@@ -65,6 +60,12 @@ DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD の値を変更
 
 [![Image from Gyazo](https://i.gyazo.com/2a9477db28b24ca194ac6e3d69aafd58.png)](https://gyazo.com/2a9477db28b24ca194ac6e3d69aafd58)
 
+#### `mailhog`の設定
+
+MAIL_SCHEMEの削除　MAIL_ENCRYPTIONの追加
+MAIL_MAILER・MAIL_HOST・MAIL_PORT　の値変更
+[![Image from Gyazo](https://i.gyazo.com/6e6c1077efad39c07aa1d6b4bb099c15.png)]
+
 #### npm の実行
 
 package の変更があった場合、_src_ フォルダで `npm install` を実行する
@@ -74,6 +75,13 @@ cd src
 npm install
 npm run build
 ```
+### keyの作成
+- php artisan key:generate
+
+### DATABASEの作成
+- php artisan migrate
+- php artisan db:seed
+
 
 # ④ laravel のテスト環境を作成
 
@@ -158,3 +166,8 @@ php artisan migrate --env=testing
         <server name="TELESCOPE_ENABLED" value="false"/>
     </php>
 ```
+## 使用技術
+- PHP 8.4.14
+- Laravel Laravel Framework 12.47.0
+- nginx/1.21.1
+- mysql from 11.8.3-MariaDB
