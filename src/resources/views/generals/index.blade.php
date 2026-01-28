@@ -64,7 +64,7 @@
 
                     <!-- 退勤後 -->
                     @if($attendance && $attendance->work_status === 'finished')
-                        <p>お疲れさまでした。</p>
+                        <p>お疲れ様でした。</p>
                     @endif
                 </div>
             </div>

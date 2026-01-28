@@ -26,7 +26,8 @@
                         <th>日付</th>
                         <td>
                             <div class="detail-date">
-                                <p>{{ $date->format('Y年n月j日')}}</p>
+                                <p>{{ $date->format('Y年')}}</p>
+                                <p>{{ $date->format('n月j日')}}</p>
                             </div>
                         </td>
                     </tr>

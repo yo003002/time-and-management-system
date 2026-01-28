@@ -26,7 +26,8 @@
                         <th>日付</th>
                         <td>
                             <div class="approve-detail-date">
-                                <p>{{ $correction->attendance->date->format('Y年n年j日')}}</p>
+                                <p>{{ $correction->attendance->date->format('Y年')}}</p>
+                                <p>{{ $correction->attendance->date->format('n月j日')}}</p>
                             </div>
                         </td>
                     </tr>

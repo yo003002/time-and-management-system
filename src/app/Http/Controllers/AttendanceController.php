@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\AdminAttendanceRequest;
+use App\Services\AttendanceCorrectionService;
 use App\Models\Attendance;
 use App\Models\AttendanceBreak;
 use App\Models\AttendanceCorrection;
@@ -551,29 +552,10 @@ class AttendanceController extends Controller
             return back();
         }
 
-        DB::transaction(function () use ($correction) {
-            $attendance = $correction->attendance;
-
-            $attendance->update([
-                'clock_in' => $correction->clock_in,
-                'clock_out' => $correction->clock_out,
-            ]);
-
-            $attendance->breaks()->delete();
-
-            foreach ($correction->breaks ?? [] as $break) {
-                AttendanceBreak::create([
-                    'attendance_id' => $attendance->id,
-                    'break_start' => $break['start'],
-                    'break_end' => $break['end'],
-                ]);
-            }
-
-            $correction->update([
-                'status' => 'approved',
-                'approved_by' => auth()->id(),
-            ]);
-        });
+        AttendanceCorrectionService::approve(
+            $correction,
+            auth()->user()
+        );
 
         return redirect()
             ->route('correction.approve.form', $correction->id);
