@@ -20,6 +20,7 @@ class Attendance extends Model
         'work_status',
     ];
 
+    
     protected $casts = [
         'date' => 'date',
         'clock_in' => 'datetime',

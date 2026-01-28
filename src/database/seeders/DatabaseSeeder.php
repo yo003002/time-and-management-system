@@ -16,5 +16,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(AdminUserSeeder::class);
+
+        User::factory()->count(5)->create();
+
+        $this->call([
+            AttendanceSeeder::class,
+            AttendanceCorrectionSeeder::class,
+        ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-// todo エラーメッセージ編集
+
 return [
     'required' => ':attributeを入力してください',
     

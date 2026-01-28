@@ -12,6 +12,7 @@ class AttendanceCorrection extends Model
 
     protected $fillable = [
         'attendance_id',
+        'approved_by',
         'clock_in',
         'clock_out',
         'breaks',
@@ -28,5 +29,23 @@ class AttendanceCorrection extends Model
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);
+    }
+
+    public function approver()
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    public function getBreaksAttribute($value)
+    {
+        if (is_null($value)) {
+            return [];
+        }
+
+        if (is_string($value)) {
+            return json_decode($value, true) ?? [];
+        }
+
+        return $value;
     }
 }

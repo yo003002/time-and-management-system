@@ -46,7 +46,6 @@
                         </td>
                     </tr>
 
-                    @if(is_array($correction->breaks))
                         @foreach($correction->breaks as $i => $break)
                             <tr class="approve-detail-table__row">
                                 <th><p>休憩{{ $i + 1 }}</p></th>
@@ -59,12 +58,11 @@
                                 </td>
                             </tr>
                         @endforeach
-                    @endif
 
                     <tr class="approve-detail-table__row">
                         <th>備考</th>
                         <td>
-                            {{ $correction->remark ?: '' }}
+                            <p class="remark">{{ $correction->remark ?: '' }}</p>
                         </td>
                     </tr>
                 </table>

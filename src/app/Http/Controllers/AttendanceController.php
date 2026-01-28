@@ -408,6 +408,7 @@ class AttendanceController extends Controller
             'clock_in' => $clockIn,
             'clock_out' => $clockOut,
             'breaks' => $breaksForSave,
+            'remark' => $request->remark,
             'status' => 'approved',
             'approved_by' => auth()->id(),
         ]);
@@ -570,6 +571,7 @@ class AttendanceController extends Controller
 
             $correction->update([
                 'status' => 'approved',
+                'approved_by' => auth()->id(),
             ]);
         });
 

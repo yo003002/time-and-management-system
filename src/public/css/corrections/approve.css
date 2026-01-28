@@ -103,12 +103,11 @@
 }
 
 /* 備考 */
-.approve-detail-table__inner textarea {
+.remark {
     padding: 10px;
     height: 70px;
     width: 60%;
     padding: 20px 15px;
-    border: 1.5px solid #e1e1e1;
     border-radius: 3px;
     color: #000000;
     font-size: 16px;
