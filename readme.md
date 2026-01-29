@@ -178,4 +178,4 @@ php artisan migrate --env=testing
 - mysql from 11.8.3-MariaDB
 
 ## ER図
-- ![ER図](time-and-attendance-management-system-1.png)
+- ![ER図](time-and-attendance-management-system.png)
