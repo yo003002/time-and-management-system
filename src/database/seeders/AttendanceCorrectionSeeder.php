@@ -28,7 +28,9 @@ class AttendanceCorrectionSeeder extends Seeder
 
         $admin = User::where('role', 'admin')->first();
 
-        Attendance::all()->each(function ($attendance) use ($admin, $remarks) {
+        $service = app(AttendanceCorrectionService::class);
+
+        Attendance::all()->each(function ($attendance) use ($admin, $remarks, $service) {
             
             if (rand(1, 100) > 30) {
                 return;
@@ -52,7 +54,7 @@ class AttendanceCorrectionSeeder extends Seeder
 
             if ($isApproved && $admin) {
 
-                AttendanceCorrectionService::approve(
+                $service->approve(
                     $correction,
                     $admin
                 );

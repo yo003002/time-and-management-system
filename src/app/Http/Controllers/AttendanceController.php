@@ -543,7 +543,7 @@ class AttendanceController extends Controller
     }
 
     // 承認機能
-    public function approve($id)
+    public function approve($id, AttendanceCorrectinService $service)
     {
         $correction = AttendanceCorrection::with('attendance')
             ->findOrFail($id);
@@ -552,7 +552,7 @@ class AttendanceController extends Controller
             return back();
         }
 
-        AttendanceCorrectionService::approve(
+        $service->approve(
             $correction,
             auth()->user()
         );

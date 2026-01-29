@@ -14,7 +14,7 @@ class AttendanceCorrectionService
     /**
      * Create a new class instance.
      */
-    public static function approve(
+    public function approve(
         AttendanceCorrection $correction,
         User $admin
     ): void
