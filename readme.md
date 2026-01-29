@@ -176,3 +176,6 @@ php artisan migrate --env=testing
 - Laravel Laravel Framework 12.47.0
 - nginx/1.21.1
 - mysql from 11.8.3-MariaDB
+
+## ER図
+- ![ER図](time-and-attendance-management-system.png)
