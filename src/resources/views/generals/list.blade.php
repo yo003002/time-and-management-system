@@ -13,13 +13,13 @@
     </div>
     <div class="month">
         <div class="month-swith">
-            <a href="{{ route('generals.list', ['month' => $month->copy()->subMonth()->format('Y-m')]) }}"><span class="arrow">←</span>前月</a>
+            <a href="{{ route('generals.list', ['month' => $month->subMonthNoOverflow()->format('Y-m')]) }}"><span class="arrow">←</span>前月</a>
 
             <span class="now-month">
                 <img class="month-logo" src="{{ asset('images/icon_125550.svg') }}" alt="カレンダーロゴ">{{ $month->format('Y/m') }}
             </span>
 
-            <a href="{{ route('generals.list', ['month' => $month->copy()->addMonth()->format('Y-m')]) }}">翌月<span class="arrow">→</span></a>
+            <a href="{{ route('generals.list', ['month' => $month->addMonthNoOverflow()->format('Y-m')]) }}">翌月<span class="arrow">→</span></a>
         </div>
     </div>
 

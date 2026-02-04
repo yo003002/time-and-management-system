@@ -24,14 +24,13 @@
                 </div>
             </div>
             <div class="date">
-                {{ now()->format('Y年n月j日') }}({{ ['日','月','火','水','木','金','土'][now()->dayOfWeek] }})
+                {{ $today->format('Y年n月j日') }}({{ ['日','月','火','水','木','金','土'][$today->dayOfWeek] }})
             </div>
             <div class="time">
-                <span id="realtime"></span>
+                <span id="realtime">{{ $currentTime }}</span>
             </div>
             <div class="status-button">
                 <div class="status-button__content">
-                    <!-- 勤務外時間 -->
                     @if(!$attendance || $attendance->work_status === 'before_work')
                         <form method="post" action="{{ route('generals.clockIn') }}" >
                             @csrf
@@ -46,7 +45,6 @@
                         </form>
                     @endif
 
-                    <!-- 出勤中 -->
                     @if($attendance && $attendance->work_status === 'working')
                         <form method="post" action="{{ route('generals.breakIn') }}" >
                             @csrf
@@ -54,7 +52,6 @@
                         </form>
                     @endif
 
-                    <!-- 休憩中 -->
                     @if($attendance && $attendance->work_status === 'on_break')
                         <form method="post" action="{{ route('generals.breakOut') }}" >
                             @csrf
@@ -62,7 +59,6 @@
                         </form>
                     @endif
 
-                    <!-- 退勤後 -->
                     @if($attendance && $attendance->work_status === 'finished')
                         <p>お疲れ様でした。</p>
                     @endif
@@ -74,8 +70,6 @@
 @endsection
 
 @push('scripts')
-
-<!-- 時間を１分ごとに更新 -->
 <script>
     function updateClock() {
         const now = new Date();

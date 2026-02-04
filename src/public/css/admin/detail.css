@@ -1,7 +1,13 @@
+.admin-detail-content {
+    max-width: 800px;
+    padding-inline: 1rem;
+    margin-inline: auto;
+}
+
 .admin-detail-header {
     margin: 0 auto;
-    padding: 80px 0 30px 0;
-    width: 60%;
+    padding: 70px 0 40px 0;
+    width: 100%;
 }
 
 .admin-header-title {
@@ -14,7 +20,7 @@
 /* 勤怠詳細内容 */
 .admin-detail-list {
     margin: 30px auto;
-    width: 60%;
+    width: 100%;
     background: #fff;
     border: 1px solid #e1e1e1;
     border-radius: 10px;
@@ -147,7 +153,7 @@
 /* 修正ボタン */
 .admin-detail-button {
     margin: 0 auto;
-    width: 60%;
+    width: 100%;
     text-align: right;
     height: 50px;
 }
@@ -168,7 +174,7 @@
 /* 承認待ちメッセージ */
 .waiting-message {
     margin: 0 auto;
-    width: 60%;
+    width: 100%;
     color: #f87879;
     font-weight: bold;
     text-align: right;

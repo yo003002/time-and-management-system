@@ -20,6 +20,6 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withProviders([
-        App\Providers\FortifyServiceProvider::class
+        App\Providers\FortifyServiceProvider::class,
     ])
     ->create();

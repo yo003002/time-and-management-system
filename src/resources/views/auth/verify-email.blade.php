@@ -14,15 +14,15 @@
         </h3>
     </div>
     <div class="verify-resend">
-        <p>認証はこちらから</p>
-    </div>
-    <div class="resend-massage">
         <form method="post" action="{{ route('verification.send') }}" class="verify-form">
             @csrf
             <button type="submit" class="verify-form__button">
-                認証メールを再送する
+                認証はこちらから
             </button>
         </form>
+    </div>
+    <div class="resend-massage">
+         <p>認証はこちらから</p>
     </div>
 </div>
 @endsection

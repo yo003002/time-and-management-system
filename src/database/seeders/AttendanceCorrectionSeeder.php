@@ -43,6 +43,7 @@ class AttendanceCorrectionSeeder extends Seeder
 
             $correction = AttendanceCorrection::create([
                 'attendance_id' => $attendance->id,
+                'requested_by' => $attendance->user_id,
                 'clock_in' => $clockIn,
                 'clock_out' => $clockOut,
                 'breaks' => [

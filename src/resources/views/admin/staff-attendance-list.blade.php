@@ -15,7 +15,7 @@
         <div class="month-swith">
             <a href="{{ route('admin.staffAttendanceList', [
                 'id' => $user->id,
-                'month' => $month->copy()->subMonth()->format('Y-m')]) }}">
+                'month' => $month->subMonthNoOverflow()->format('Y-m')]) }}">
                 <span class="arrow">←</span>前月</a>
 
             <span class="now-month">
@@ -24,7 +24,7 @@
 
             <a href="{{ route('admin.staffAttendanceList', [
                 'id' => $user->id,
-                'month' => $month->copy()->addMonth()->format('Y-m')]) }}">
+                'month' => $month->addMonthNoOverflow()->format('Y-m')]) }}">
                 翌月<span class="arrow">→</span></a>
         </div>
     </div>

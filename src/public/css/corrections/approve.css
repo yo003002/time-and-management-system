@@ -1,7 +1,13 @@
+.approve-detail-content {
+    max-width: 800px;
+    padding-inline: 1rem;
+    margin-inline: auto;
+}
+
 .approve-detail-header {
     margin: 0 auto;
     padding: 80px 0 30px 0;
-    width: 60%;
+    width: 100%;
 }
 
 .header-title {
@@ -14,7 +20,7 @@
 /* 勤怠詳細内容 */
 .approve-detail-list {
     margin: 30px auto;
-    width: 60%;
+    width: 100%;
     background: #fff;
     border: 1px solid #e1e1e1;
     border-radius: 10px;
@@ -119,7 +125,7 @@
 /* 承認ボタン */
 .approve-detail-button {
     margin: 0 auto;
-    width: 60%;
+    width: 100%;
     text-align: right;
     height: 50px;
 }

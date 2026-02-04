@@ -1,5 +1,10 @@
 .header {
     background: #000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
 }
 
 .header__inner {
@@ -53,4 +58,6 @@
 
 body {
     background-color: #f0eff2;
+    padding-top: 100px;
 }
+

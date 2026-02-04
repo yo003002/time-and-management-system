@@ -36,10 +36,11 @@
                         <th>出勤・退勤</th>
                         <td>
                             <div class="detail-attendance">
-                                <input type="text" name="clock_in" class="time-input" value="{{ old('clock_in', optional($clockIn)->format('H:i')) }}"{{ $isPending ? 'disabled' : '' }}>
+                                <input type="text" name="clock_in" class="time-input" value="{{ old('clock_in', optional($clockIn)->format('H:i')) }}"{{ $canEdit ? '' : 'disabled' }}>
                                 
                                 <span class="hyphen">～</span>
-                                <input type="text" name="clock_out" class="time-input" value="{{ old('clock_out', optional($clockOut)->format('H:i')) }}"{{ $isPending ? 'disabled' : '' }}>
+                                
+                                <input type="text" name="clock_out" class="time-input" value="{{ old('clock_out', optional($clockOut)->format('H:i')) }}"{{ $canEdit ? '' : 'disabled' }}>
                             </div>
                             <div class="form__error">
                                 @error('clock_in')
@@ -59,12 +60,11 @@
                             <td>
                                 <div class="detail-break">
                                     <input type="text" name="breaks[{{ $i }}][start]" class="time-input"
-                                    value="{{ old("breaks.$i.start", $break->start) }}"{{ $isPending ? 'disabled' : '' }}>
+                                    value="{{ old("breaks.$i.start", $break->start) }}"{{ $canEdit ? '' : 'disabled'}}>
                                     
                                     <span class="hyphen">～</span>
 
-                                    <input type="text" name="breaks[{{ $i }}][end]" class="time-input" value="{{ old("breaks.$i.end", $break->end) }}"{{ $isPending ? 'disabled' : '' }}>
-                                    
+                                    <input type="text" name="breaks[{{ $i }}][end]" class="time-input" value="{{ old("breaks.$i.end", $break->end) }}"{{ $canEdit ? '' : 'disabled' }}>
                                 </div>
                                 <div class="form__error">
                                     @error("breaks.$i.start")
@@ -81,7 +81,7 @@
                     <tr class="detail-table__row">
                         <th>備考</th>
                         <td>
-                        <textarea name="remark" {{ $isPending ? 'disabled' : '' }}>{{ $remark }}</textarea>
+                        <textarea name="remark" {{ $canEdit ? '' : 'disabled' }}>{{ $remark }}</textarea>
                         <div class="form__error">
                             @error('remark')
                                 {{ $message }}
@@ -93,13 +93,17 @@
             </div>
         </div>
 
-        @if($isPending)
-            <div class="waiting-message">
+        @if(! $canEdit)
+        <div class="waiting-message">
+            @if($isPending)
                 <p>*承認待ちのため修正はできません。</p>
-            </div>
+            @else
+                <p>*承認済みの申請は修正できません。</p>
+            @endif
+        </div>
         @endif
 
-        @if(!($isPending))
+        @if($canEdit)
             <div class="detail-button">
                 <button type="submit" class="detail-button__submit">修正</button>
             </div>

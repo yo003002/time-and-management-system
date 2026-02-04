@@ -17,11 +17,11 @@ class VerifiedExceptAdmin
     {
         $user = $request->user();
 
-        if ($user && $user->role === 'admin') {
+        if ($user->role === 'admin') {
             return $next($request);
         }
 
-        if ($user && ! $user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             return redirect()->route('verification.notice');
         }
 

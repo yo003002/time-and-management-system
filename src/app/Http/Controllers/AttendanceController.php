@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Carbon\CarbonPeriod;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\AdminAttendanceRequest;
@@ -22,12 +23,17 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        $today = now()->toDateString();
+        $now = now();
 
         $attendance = Attendance::where('user_id', auth()->id())
-            ->where('date', $today)
+            ->where('date', $now->toDateString())
             ->first();
-        return view('generals.index', compact('attendance'));
+
+        return view('generals.index', [
+            'attendance' => $attendance,
+            'today' => $now,
+            'currentTime' => $now->format('H:i'),
+        ]);
     }
 
     // 出勤
@@ -43,7 +49,7 @@ class AttendanceController extends Controller
             'work_status' => 'working',
         ]);
 
-        return redirect()->back();
+        return redirect()->route('generals.index');
     }
 
     // 休憩入
@@ -62,7 +68,7 @@ class AttendanceController extends Controller
             'work_status' => 'on_break',
         ]);
 
-        return redirect()->back();
+        return redirect()->route('generals.index');
     }
 
     // 休憩戻
@@ -85,7 +91,7 @@ class AttendanceController extends Controller
             'work_status' => 'working',
         ]);
 
-        return redirect()->back();
+        return redirect()->route('generals.index');
     }
 
     // 退勤
@@ -100,7 +106,7 @@ class AttendanceController extends Controller
             'work_status' => 'finished',
         ]);
 
-        return redirect()->back();
+        return redirect()->route('generals.index');
     }
 
     // その月の勤怠一覧（一般）
@@ -110,11 +116,11 @@ class AttendanceController extends Controller
 
         // 月を表示
         $month = $request->input('month')
-        ? Carbon::createFromFormat('Y-m', $request->input('month'))
-        : now();
+        ? CarbonImmutable::createFromFormat('!Y-m', $request->input('month'))
+        : CarbonImmutable::now()->startOfMonth();
 
-        $start = $month->copy()->startOfMonth();
-        $end = $month->copy()->endOfMonth();
+        $start = $month;
+        $end = $month->endOfMonth();
         
         // 勤怠データ
         $attendances = Attendance::with('breaks')
@@ -140,7 +146,7 @@ class AttendanceController extends Controller
     }
 
     // 勤怠詳細（一般）
-    public function detail($id)
+    public function detail(Request $request, $id)
     {
         $attendance = Attendance::with([
             'breaks',
@@ -151,6 +157,8 @@ class AttendanceController extends Controller
 
         // 自分の勤怠のみ確認できる
         abort_if($attendance->user_id !== auth()->id(), 403);
+
+        $fromApprovedList = $request->query('from') === 'approved';
 
         $correction = 
             $attendance->pendingCorrection
@@ -185,7 +193,9 @@ class AttendanceController extends Controller
             ]);
         }
 
-        $canEdit = is_null($attendance->pendingCorrection);
+        $canEdit = 
+            is_null($attendance->pendingCorrection)
+            && ! $fromApprovedList;
         
         if ($canEdit) {
             $displayBreaks->push((object) [
@@ -203,6 +213,7 @@ class AttendanceController extends Controller
             'clockOut',
             'displayBreaks',
             'remark',
+            'canEdit'
         ));
     }
 
@@ -235,6 +246,7 @@ class AttendanceController extends Controller
 
         AttendanceCorrection::create([
             'attendance_id' => $attendance->id,
+            'requested_by' => auth()->id(),
             'clock_in' => $clockIn,
             'clock_out' => $clockOut,
             'breaks' => empty($breaks) ? null : $breaks,
@@ -258,14 +270,26 @@ class AttendanceController extends Controller
             $query->whereHas('attendance', function ($q) {
                 $q->where('user_id', auth()->id());
             });
+
+            if ($status === 'approved') {
+                $query->where('requested_by', auth()->id());
+            }
         }
 
         $corrections = $query->latest()->get();
 
         $corrections->each(function ($correction) {
-            $correction->detail_url = auth()->user()->can('admin')
-                ? route('correction.approve.form', $correction->id)
-                : route('generals.detail', $correction->attendance->id);
+            if (auth()->user()->can('admin')) {
+                $correction->detail_url = route('correction.approve.form', $correction->id);
+            } else {
+                $params = ['id' => $correction->attendance->id];
+
+                if ($correction->status === 'approved') {
+                    $params['from'] = 'approved';
+                }
+
+                $correction->detail_url = route('generals.detail', $params);
+            }
         });
 
         return view('corrections.list', compact('corrections', 'status'));
@@ -406,6 +430,7 @@ class AttendanceController extends Controller
 
         AttendanceCorrection::create([
             'attendance_id' => $attendance->id,
+            'requested_by' => auth()->id(),
             'clock_in' => $clockIn,
             'clock_out' => $clockOut,
             'breaks' => $breaksForSave,
@@ -431,11 +456,11 @@ class AttendanceController extends Controller
         $user = User::findOrFail($id);
 
         $month = $request->input('month')
-            ? Carbon::createFromFormat('Y-m', $request->input('month'))
-            : now();
+            ? CarbonImmutable::createFromFormat('!Y-m', $request->input('month'))
+            : CarbonImmutable::now()->startOfMonth();
 
-        $start = $month->copy()->startOfMonth();
-        $end = $month->copy()->endOfMonth();
+        $start = $month;
+        $end = $month->endOfMonth();
 
         $attendances = Attendance::with('breaks')
             ->where('user_id', $user->id)
@@ -543,7 +568,7 @@ class AttendanceController extends Controller
     }
 
     // 承認機能
-    public function approve($id, AttendanceCorrectinService $service)
+    public function approve($id, AttendanceCorrectionService $service)
     {
         $correction = AttendanceCorrection::with('attendance')
             ->findOrFail($id);

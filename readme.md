@@ -179,3 +179,6 @@ php artisan migrate --env=testing
 
 ## ER図
 - ![ER図](time-and-attendance-management-system.png)
+
+## URL
+- 開発環境　http://localhost/

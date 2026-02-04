@@ -1,9 +1,14 @@
 /*  各スタッフ月次勤怠一覧（管理者） */
+.list-content {
+    max-width: 800px;
+    padding-inline: 1rem;
+    margin-inline: auto;
+}
 
 .list-header {
     margin: 0 auto;
-    padding: 80px 0 40px 0;
-    width: 60%;
+    padding: 70px 0 40px 0;
+    width: 100%;
 }
 
 .header-title {
@@ -16,7 +21,7 @@
 /* 月表示 */
 .month {
     margin: 0 auto;
-    width: 60%;
+    width: 100%;
     background: #fff;
     border: none;
     border-radius: 10px;
@@ -59,7 +64,7 @@
 /* 勤怠一覧 */
 .list-inner {
     margin: 50px auto;
-    width: 60%;
+    width: 100%;
     background: #fff;
     border: none;
     border-radius: 10px;
@@ -110,3 +115,27 @@
     text-decoration: none;
     cursor: pointer;
 }
+
+.csv {
+    margin: 0 auto;
+    width: 100%;
+    text-align: right;
+    height: 50px;
+}
+
+.csv-btn {
+    display: inline-block;
+    background: #000000;
+    height: 100%;
+    line-height: 50px;
+    width: 130px;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+

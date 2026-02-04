@@ -13,6 +13,7 @@
     </div>
     <form action="{{ route('correction.approve', $correction->id) }}" method="post" class="detail-form">
         @csrf
+        @method('patch')
         <div class="approve-detail-list">
             <div class="approve-detail-table">
                 <table class="approve-detail-table__inner">

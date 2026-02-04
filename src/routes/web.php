@@ -9,9 +9,12 @@ Route::get('/admin/login', function () {
     return view('admin.login');
 })->middleware('guest')->name('admin.login');
 
+Route::get('/', function() {
+    return redirect()->route('generals.index');
+});
 
 // 一般
-Route::middleware('auth', 'verified')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('generals.index');
 
@@ -44,7 +47,6 @@ Route::middleware('auth', 'verified')->group(function () {
 Route::middleware(['auth', 'verified.except.admin'])->group(function () {
     // 申請一覧画面（一般・管理者共通）
     Route::get('/stamp_correction_request/list', [AttendanceController::class, 'correctionList'])->name('corrections.list');
-
 });
     
 // 管理者
@@ -53,6 +55,7 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     // 管理者ログイン後勤怠一覧
     Route::get('/admin/attendance/list', [AttendanceController::class, 'adminList'])->name('admin.list');
 
+    // 詳細
     Route::get('/admin/attendance/{id}', [AttendanceController::class, 'adminDetail'])->name('admin.detail');
 
     // 修正
@@ -70,5 +73,5 @@ Route::middleware(['auth', 'can:admin'])->group(function () {
     // 修正申請承認画面
     Route::get('/stamp_correction_request/approve/{attendance_correct_request_id}', [AttendanceController::class, 'approveForm'])->name('correction.approve.form');
 
-    Route::post('/stamp_correction_request/approve/{attendance_correct_request_id}', [AttendanceController::class, 'approve'])->name('correction.approve');
+    Route::patch('/stamp_correction_request/approve/{attendance_correct_request_id}', [AttendanceController::class, 'approve'])->name('correction.approve');
 });

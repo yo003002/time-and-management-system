@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('attendance_id')->constrained()->cascadeOnDelete();
             $table->foreignId('approved_by')->nullable()->constrained('users');
+            $table->foreignId('requested_by')->constrained('users');
             $table->dateTime('clock_in')->nullable();
             $table->dateTime('clock_out')->nullable();
             $table->text('breaks')->nullable();

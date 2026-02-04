@@ -19,6 +19,7 @@ use Laravel\Fortify\Fortify;
 use Laravel\Fortify\Contracts\LoginViewResponse;
 use Laravel\Fortify\Contracts\RegisterViewResponse;
 use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\RegisterResponse;
 use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Contracts\VerifyEmailViewResponse;
 use App\Models\User;
@@ -38,6 +39,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
         Fortify::authenticateUsing(function (Request $request) {
             $user = User::where('email', $request->email)->first();
 
@@ -54,6 +56,10 @@ class FortifyServiceProvider extends ServiceProvider
             }
 
             if ($request->login_type === 'user' && $user->role !== 'user') {
+                return null;
+            }
+
+            if ($user->role !== 'admin' && ! $user->hasVerifiedEmail()) {
                 return null;
             }
 
@@ -93,6 +99,29 @@ class FortifyServiceProvider extends ServiceProvider
             $email = (string) $request->email;
             
             return Limit::perMinute(10)->by($email . $request->ip());
+        });
+
+        $this->app->singleton(RegisterResponse::class, function () {
+            return new class implements RegisterResponse {
+                public function toResponse($request)
+                {
+                    if (! $request->routeIs('register.store')) {
+                        return redirect()->intended();
+                    }
+
+                    $user = auth()->user();
+    
+                    if (! $user->hasVerifiedEmail()) {
+                        return redirect()->route('verification.notice');
+                    }
+
+                    if ($user->role === 'admin') {
+                        return redirect()->route('admin.list');
+                    }
+
+                    return redirect()->route('ganerals.index');
+                }
+            };
         });
 
         // 管理者ログイン後勤怠一覧画面へ

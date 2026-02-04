@@ -1,7 +1,13 @@
+.staff-list-content {
+    max-width: 800px;
+    padding-inline: 1rem;
+    margin-inline: auto;
+}
+
 .staff-list-header {
     margin: 0 auto;
-    padding: 80px 0 40px 0;
-    width: 60%;
+    padding: 70px 0 40px 0;
+    width: 100%;
 }
 
 .staff-list-header__title {
@@ -14,7 +20,7 @@
 /* スタッフ一覧 */
 .staff-list-inner {
     margin: 20px auto;
-    width: 60%;
+    width: 100%;
     background: #fff;
     border: none;
     border-radius: 10px;
