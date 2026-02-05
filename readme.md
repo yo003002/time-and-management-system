@@ -104,6 +104,7 @@ php artisan db:seed
 
 ```
 APP_NAME=Laravel
+APP_ENV=test
 - APP_KEY=xxxxxxxxx
 + APP_KEY=
 APP_DEBUG=true
