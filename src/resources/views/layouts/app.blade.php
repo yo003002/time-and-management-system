@@ -13,7 +13,7 @@
         <header class="header">
             <div class="header__inner">
                 <div class="header__utilities">
-                    <a class="header__logo" href="/"><img src="{{ asset('images/COACHTECHヘッダーロゴ (1).png') }}" alt="COΛCHTECH"></a>
+                    <a class="header__logo" href="/admin/attendance/list"><img src="{{ asset('images/COACHTECHヘッダーロゴ (1).png') }}" alt="COΛCHTECH"></a>
                     <nav>
                         <ul class="header-nav">
 
