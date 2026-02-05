@@ -99,12 +99,6 @@ php artisan db:seed
 
 [![Image from Gyazo](https://i.gyazo.com/b10def21c9dfe7c0af503ac3671e9988.png)](https://gyazo.com/b10def21c9dfe7c0af503ac3671e9988)
 
-#### src/config/database.php を開き、編集
-
-現状の "mysql" のブロックをコピーし、以下を変更
-
-[![Image from Gyazo](https://i.gyazo.com/9f4b9611bf6fc41a982d7f25c71ac513.png)](https://gyazo.com/9f4b9611bf6fc41a982d7f25c71ac513)
-
 #### .env.testing を編集
 .env.testing ファイルの文頭部分にある APP_KEY を編集。
 
