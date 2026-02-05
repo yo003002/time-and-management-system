@@ -22,7 +22,7 @@
         </form>
     </div>
     <div class="resend-massage">
-         <p>認証はこちらから</p>
+         <p>認証メールを再送する</p>
     </div>
 </div>
 @endsection
