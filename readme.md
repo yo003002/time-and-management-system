@@ -54,6 +54,11 @@ composer install
 'timezone' => 'Asia/Tokyo',
 ```
 
+#### `.env` の作成
+```
+cp .env.example .env
+```
+
 #### `.env` の修正
 
 DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD の値を変更
@@ -100,39 +105,17 @@ php artisan db:seed
 
 [![Image from Gyazo](https://i.gyazo.com/9f4b9611bf6fc41a982d7f25c71ac513.png)](https://gyazo.com/9f4b9611bf6fc41a982d7f25c71ac513)
 
-#### .env.testing を作成
-
-.env ファイルをコピー
-
-```
-cp .env .env.testing
-```
-
-ファイルの作成ができたたら、.env.testing ファイルの文頭部分にある APP_ENV と APP_KEY を編集。
+#### .env.testing を編集
+.env.testing ファイルの文頭部分にある APP_KEY を編集。
 
 ```
 APP_NAME=Laravel
-- APP_ENV=local
 - APP_KEY=xxxxxxxxx
-+ APP_ENV=test
 + APP_KEY=
 APP_DEBUG=true
 APP_URL=http://localhost
 ```
 
-次に、.env.testing にデータベースの接続情報を加える。
-
-```
-  DB_CONNECTION=mysql
-  DB_HOST=mysql
-  DB_PORT=3306
-- DB_DATABASE=laravel_db
-- DB_USERNAME=laravel_user
-- DB_PASSWORD=laravel_pass
-+ DB_DATABASE=laravel_db_test
-+ DB_USERNAME=root
-+ DB_PASSWORD=root
-```
 
 先ほど「空」にした APP_KEY に新たなテスト用のアプリケーションキーを加えるために以下のコマンドを実行
 
@@ -152,25 +135,6 @@ php artisan config:clear
 php artisan migrate --env=testing
 ```
 
-#### phpunit の編集
-
-プロジェクトの直下の phpunit.xml を開き、DB_CONNECTION と DB_DATABASE を以下のように変更
-
-```
-    <php>
-        <server name="APP_ENV" value="testing"/>
-        <server name="BCRYPT_ROUNDS" value="4"/>
-        <server name="CACHE_DRIVER" value="array"/>
--         <!-- <server name="DB_CONNECTION" value="sqlite"/> -->
--         <!-- <server name="DB_DATABASE" value=":memory:"/> -->
-+         <server name="DB_CONNECTION" value="mysql_test"/>
-+         <server name="DB_DATABASE" value="laravel_db_test"/>
-        <server name="MAIL_MAILER" value="array"/>
-        <server name="QUEUE_CONNECTION" value="sync"/>
-        <server name="SESSION_DRIVER" value="array"/>
-        <server name="TELESCOPE_ENABLED" value="false"/>
-    </php>
-```
 ## 使用技術
 - PHP 8.4.14
 - Laravel Laravel Framework 12.47.0
