@@ -71,15 +71,6 @@ MAIL_SCHEMEの削除　MAIL_ENCRYPTIONの追加　MAIL_MAILER・MAIL_HOST・MAIL
 
 ![Image from Gyazo](https://i.gyazo.com/6e6c1077efad39c07aa1d6b4bb099c15.png)
 
-#### npm の実行
-
-package の変更があった場合、_src_ フォルダで `npm install` を実行する
-
-```
-cd src
-npm install
-npm run build
-```
 ### keyの作成
 ```
 php artisan key:generate

@@ -19,8 +19,8 @@
                     <tr class="admin-detail-table__row">
                         <th>名前</th>
                         <td>
-                            <div class="admin-detail-name">{{ $attendance->user->name }}</td>
-                        </div>
+                            <div class="admin-detail-name">{{ $attendance->user->name }}</div>
+                        </td>
                     </tr class="admin-detail-table__row">
                     <tr class="admin-detail-table__row">
                         <th>日付</th>

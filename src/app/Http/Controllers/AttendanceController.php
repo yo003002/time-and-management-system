@@ -128,7 +128,7 @@ class AttendanceController extends Controller
             ->whereBetween('date', [$start, $end])
             ->orderBy('date')
             ->get()
-            ->keyBy(fn ($a) => $a->date->format('Y-m-d'));
+            ->keyBy(fn ($attendance) => $attendance->date->format('Y-m-d'));
 
         $dates = CarbonPeriod::create($start, $end);
 
@@ -181,15 +181,15 @@ class AttendanceController extends Controller
         $hasCorrection = !is_null($correction);
         
         $displayBreaks = collect($correction?->breaks ?? [])
-            ->map(fn ($b) => (object) [
-                'start' => $b['start'] ?? '',
-                'end' => $b['end'] ?? '',
+            ->map(fn ($break) => (object) [
+                'start' => $break['start'] ?? '',
+                'end' => $break['end'] ?? '',
             ]);
 
         if ($displayBreaks->isEmpty()) {
-            $displayBreaks = $attendance->breaks->map(fn ($b) => (object) [
-                'start' => optional($b->break_start)->format('H:i'),
-                'end'  => optional($b->break_end)->format('H:i'),
+            $displayBreaks = $attendance->breaks->map(fn ($break) => (object) [
+                'start' => optional($break->break_start)->format('H:i'),
+                'end'  => optional($break->break_end)->format('H:i'),
             ]);
         }
 
